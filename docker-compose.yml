@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  n8n-python:
+    image: ${DOCKERHUB_USERNAME}/n8n-python:latest
+    restart: always
+    container_name: n8npython
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - NODE_ENV=production
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ./python_scripts:/data/python_scripts
