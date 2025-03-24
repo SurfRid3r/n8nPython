@@ -173,3 +173,4 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 .cursor
+n8n_data/
