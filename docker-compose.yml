@@ -8,11 +8,14 @@ services:
     ports:
       - "5678:5678"
     environment:
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
       - N8N_PORT=5678
+      - N8N_PROTOCOL=https
       - NODE_ENV=production
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
-      - ./n8n_data:/home/node/.n8n
-      - ./python_scripts:/data/python_scripts
+      - ${N8N_DATA_DIR}/n8n_data:/home/node/.n8n
+      - ${N8N_DATA_DIR}/python_scripts:/data/python_scripts
     networks:
       - n8n-network
 
