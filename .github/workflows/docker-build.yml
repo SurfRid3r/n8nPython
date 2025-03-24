@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 0 * * *"  # Run at midnight daily
   workflow_dispatch:      # Allow manual trigger
+  push:                   # Add trigger for push events
 
 jobs:
   build:
@@ -27,4 +28,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/n8n-python:latest 
+        tags: surfrid3r/n8n-python:latest 
