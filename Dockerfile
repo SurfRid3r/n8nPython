@@ -4,7 +4,7 @@ USER root
 
     # 安装 Python 和 pip
 RUN apk add --no-cache python3 py3-pip python3-dev && \
-    apk add --no-cache gcc build-base curl jq
+    apk add --no-cache gcc build-base curl jq ffmpeg yt-dlp
 
 # Create Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv

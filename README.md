@@ -4,7 +4,7 @@
 
 ## 项目特点
 
-- 基于 N8N 平台，支持 Python 脚本执行
+- 基于 N8N 平台，支持 Python 脚本执行、ffmpeg
 - 支持多架构部署（linux/amd64, linux/arm64）
 - 自动化 Docker 镜像构建和发布
 - 持久化数据存储
