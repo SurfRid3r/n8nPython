@@ -2,13 +2,22 @@ FROM n8nio/n8n:latest
 
 USER root
 
-    # 安装 Python 和 pip
-RUN apk add --no-cache python3 py3-pip python3-dev && \
-    apk add --no-cache gcc build-base curl jq ffmpeg yt-dlp
+# Install Python runtime and tooling on Debian-based n8n image
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python3 \
+        python3-venv \
+        python3-pip \
+        build-essential \
+        curl \
+        jq \
+        ffmpeg \
+        yt-dlp \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
+RUN python3 -m venv "$VIRTUAL_ENV"
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy requirements file
@@ -19,4 +28,4 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 USER node
 
-EXPOSE 5678 
+EXPOSE 5678
