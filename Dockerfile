@@ -2,18 +2,17 @@ FROM n8nio/n8n:latest
 
 USER root
 
-# Install Python runtime and tooling on Debian-based n8n image
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+# Install Python runtime and tooling (Alpine-based n8n image)
+RUN apk add --no-cache \
         python3 \
-        python3-venv \
-        python3-pip \
-        build-essential \
+        py3-pip \
+        python3-dev \
+        gcc \
+        musl-dev \
         curl \
         jq \
         ffmpeg \
-        yt-dlp \
-    && rm -rf /var/lib/apt/lists/*
+        yt-dlp
 
 # Create Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv
