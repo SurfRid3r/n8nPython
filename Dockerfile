@@ -3,12 +3,13 @@ FROM n8nio/n8n:latest
 USER root
 
 # Reinstall apk-tools (n8n 2.1.0+ removed it from final image to optimize size)
+# Use static version that doesn't depend on shared libraries
 # See: https://github.com/n8n-io/n8n/issues/23246
-RUN wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/apk-tools-2.14.9-r3.apk | tar -xz -C / \
-    || wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/aarch64/apk-tools-2.14.9-r3.apk | tar -xz -C /
+RUN wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/apk-tools-static-2.14.9-r3.apk | tar -xz -C / \
+    || wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/aarch64/apk-tools-static-2.14.9-r3.apk | tar -xz -C /
 
 # Install Python runtime and tooling
-RUN apk add --no-cache \
+RUN /sbin/apk.static add --no-cache --allow-untrusted \
         python3 \
         py3-pip \
         python3-dev \
@@ -17,7 +18,8 @@ RUN apk add --no-cache \
         curl \
         jq \
         ffmpeg \
-        yt-dlp
+        yt-dlp \
+        apk-tools
 
 # Create Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv
