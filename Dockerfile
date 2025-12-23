@@ -2,7 +2,12 @@ FROM n8nio/n8n:latest
 
 USER root
 
-# Install Python runtime and tooling (Alpine-based n8n image)
+# Reinstall apk-tools (n8n 2.1.0+ removed it from final image to optimize size)
+# See: https://github.com/n8n-io/n8n/issues/23246
+RUN wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/apk-tools-2.14.8-r0.apk | tar -xz -C / \
+    || wget -qO- https://dl-cdn.alpinelinux.org/alpine/v3.22/main/aarch64/apk-tools-2.14.8-r0.apk | tar -xz -C /
+
+# Install Python runtime and tooling
 RUN apk add --no-cache \
         python3 \
         py3-pip \
