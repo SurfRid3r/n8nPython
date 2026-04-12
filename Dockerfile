@@ -12,8 +12,9 @@ RUN apkArch="$(uname -m)" && \
         *) echo "Unsupported architecture: $apkArch" && exit 1 ;; \
     esac
 
-# Install Python runtime and tooling
-RUN /sbin/apk.static add --no-cache --allow-untrusted \
+# Upgrade musl first to resolve version conflict with Alpine v3.22 repo
+RUN /sbin/apk.static upgrade --no-cache && \
+    /sbin/apk.static add --no-cache --allow-untrusted \
         python3 \
         py3-pip \
         python3-dev \
