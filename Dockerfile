@@ -12,9 +12,10 @@ RUN apkArch="$(uname -m)" && \
         *) echo "Unsupported architecture: $apkArch" && exit 1 ;; \
     esac
 
-# Upgrade musl first to resolve version conflict with Alpine v3.22 repo
-RUN /sbin/apk.static upgrade --no-cache && \
-    /sbin/apk.static add --no-cache --allow-untrusted \
+# Install apk-tools first, then use it to properly handle musl upgrade
+# apk.static lacks the base image's package DB, causing musl version conflicts
+RUN /sbin/apk.static add --no-cache --allow-untrusted apk-tools && \
+    apk add --no-cache \
         python3 \
         py3-pip \
         python3-dev \
@@ -23,8 +24,7 @@ RUN /sbin/apk.static upgrade --no-cache && \
         curl \
         jq \
         ffmpeg \
-        yt-dlp \
-        apk-tools
+        yt-dlp
 
 # Create Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv
