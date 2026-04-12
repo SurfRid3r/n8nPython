@@ -12,15 +12,16 @@ RUN apkArch="$(uname -m)" && \
         *) echo "Unsupported architecture: $apkArch" && exit 1 ;; \
     esac
 
-# Install apk-tools first, then use it to properly handle musl upgrade
-# apk.static lacks the base image's package DB, causing musl version conflicts
+# Install apk-tools and fix musl pin, then install packages
+# n8n base image pins musl to a specific version via hash, blocking upgrades
 RUN /sbin/apk.static add --no-cache --allow-untrusted apk-tools && \
+    apk del --no-cache musl 2>/dev/null; \
+    apk add --no-cache --allow-untrusted musl musl-dev && \
     apk add --no-cache \
         python3 \
         py3-pip \
         python3-dev \
         gcc \
-        musl-dev \
         curl \
         jq \
         ffmpeg \
